@@ -4,17 +4,17 @@ var bodyParser = require('body-parser');
 router.use(bodyParser.urlencoded({ extended: true }));
 router.use(bodyParser.json());
 
-var Tura = require('./Tura');
+var Employee = require('./Employee');
 
 router.post('/', function(req, res) {
-    Tura.create({
-        utovar: req.body.utovar,
-        istovar: req.body.istovar,
-        kamionId: req.body.kamionId,
-        vozacId: req.body.vozacId,
-        datumUtovara: req.body.datumUtovara,
-        datumIstovara: req.body.datumIstovara,
-        firma: req.body.firma
+    Employee.create({
+        name: req.body.name,
+        surname: req.body.surname,
+        personId: req.body.personId,
+        telephone: req.body.telephone,
+        workplace: req.body.workplace,
+        card: req.body.card,
+        active: req.body.active
     }, function(err, user) {
         if (err) return res.status(500).send('There was a problem adding the information to the database.');
         res.status(200).send(user);
@@ -22,35 +22,33 @@ router.post('/', function(req, res) {
 });
 
 router.get('/', function(req, res) {
-    Tura.find({}, function(err, user) {
+    Employee.find({}, function(err, user) {
         if (err) return res.status(500).send('There was a problem finding the users.');
         res.status(200).send(user);
-    }).populate('kamionId vozacId', 'oznaka ime prezime');
+    });
 });
 
 router.get('/:id', function(req, res) {
-    Tura.findById(req.params.id, function(err, user) {
+    Employee.findById(req.params.id, function(err, user) {
         if (err) return res.status(500).send('There was a problem finding the user.');
-        if (!user) return res.status(404).send('Nije pronadjena tura!');
+        if (!user) return res.status(404).send('No user found!');
         res.status(200).send(user);
-    }).populate('kamionId vozacId', 'oznaka ime prezime');
+    });
 });
 
 router.delete('/:id', function(req, res) {
-    Tura.findByIdAndRemove(req.params.id, function(err, user) {
+    Employee.findByIdAndRemove(req.params.id, function(err, user) {
         if (err) return res.status(500).send('There was a problem deleting a user.');
-        res.status(200).send('Tura ' + user.utovar + ' - ' + user.istovar + 'je obrisana iz baze.');
+        res.status(200).send('Zaposleni ' + user.ime + ' ' + user.prezime + 'je obrisan iz baze.');
     });
 });
 
 router.put('/:id', function(req, res) {
-    Tura.findByIdAndUpdate(req.params.id, req.body, {new: true}, function(err, user) {
+    Employee.findByIdAndUpdate(req.params.id, req.body, {new: true}, function(err, user) {
         if (err) return res.status(500).send('There was a problem updating the user.');
         res.status(200).send(user);
     });
 });
-
-
 
 
 module.exports = router;

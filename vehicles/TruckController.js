@@ -6,16 +6,15 @@ var checkAuth = require('../middleware/check-auth')
 router.use(bodyParser.urlencoded({ extended: true }));
 router.use(bodyParser.json());
 
-var Vozilo = require('./Vozilo');
+var Truck = require('./Truck');
 
 router.post('/', checkAuth, function(req, res, next) {
-    Vozilo.create({
-        oznaka: req.body.oznaka,
-        marka: req.body.marka,
+    Truck.create({
+        plate: req.body.plate,
+        make: req.body.make,
         model: req.body.model,
-        sasija: req.body.sasija,
-        registracija: req.body.registracija,
-        prikljucno: req.body.prikljucno
+        vin: req.body.vin,
+        date: req.body.date
     }, function(err, user) {
         if (err) return res.status(500).send('There was a problem adding the information to the database.');
         res.status(200).send(user);
@@ -23,24 +22,10 @@ router.post('/', checkAuth, function(req, res, next) {
 });
 
 router.get('/', checkAuth, function(req, res) {
-    Vozilo.find({}, function(err, user) {
+    Truck.find({}, function(err, user) {
         if (err) return res.status(500).send('There was a problem finding the users.');
         res.status(200).send(user);
     });
-});
-
-router.get('/kamioni', checkAuth, function(req, res) {
-    Vozilo.find({}, function(err, user) {
-        if (err) return res.status(500).send('Imamo problem sa prikazom prikolica.');
-        res.status(200).send(user);
-    }).where({ prikljucno: false });
-});
-
-router.get('/prikolice', checkAuth, function(req, res) {
-    Vozilo.find({}, function(err, user) {
-        if (err) return res.status(500).send('Imamo problem sa prikazom prikolica.');
-        res.status(200).send(user);
-    }).where({ prikljucno: true });
 });
 
 router.get('/:id', checkAuth, function(req, res) {
