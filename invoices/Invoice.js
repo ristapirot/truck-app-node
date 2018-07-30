@@ -2,7 +2,7 @@ var mongoose = require('mongoose');
 var InvoiceSchema = new mongoose.Schema({
     number: String,
     cmr: String,
-    fleet: { type: mongoose.Schema.Types.ObjectId, ref: 'Tura' },
+    fleet: { type: mongoose.Schema.Types.ObjectId, ref: 'Fleet' },
     date: Date,
     price: Number
 });
