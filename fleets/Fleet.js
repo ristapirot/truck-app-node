@@ -5,7 +5,7 @@ var FleetSchema = new mongoose.Schema({
     truck: { type: mongoose.Schema.Types.ObjectId, ref: 'Truck' },
     driver: { type: mongoose.Schema.Types.ObjectId, ref: 'Employee' },
     startDate: Date,
-    endDate: Date,
+    endDate: String,
     company: String
 });
 mongoose.model('Fleet', FleetSchema);

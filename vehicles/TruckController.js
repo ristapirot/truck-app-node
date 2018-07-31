@@ -29,7 +29,7 @@ router.get('/', checkAuth, function(req, res) {
 });
 
 router.get('/:id', checkAuth, function(req, res) {
-    Vozilo.findById(req.params.id, function(err, user) {
+    Truck.findById(req.params.id, function(err, user) {
         if (err) return res.status(500).send('There was a problem finding the user.');
         if (!user) return res.status(404).send('Nije pronadjeno vozilo!');
         res.status(200).send(user);
@@ -37,14 +37,14 @@ router.get('/:id', checkAuth, function(req, res) {
 });
 
 router.delete('/:id', checkAuth, function(req, res) {
-    Vozilo.findByIdAndRemove(req.params.id, function(err, user) {
+    Truck.findByIdAndRemove(req.params.id, function(err, user) {
         if (err) return res.status(500).send('There was a problem deleting a user.');
         res.status(200).send('Vozilo ' + user.marka + ' je obrisano iz baze.');
     });
 });
 
 router.put('/:id', checkAuth, function(req, res) {
-    Vozilo.findByIdAndUpdate(req.params.id, req.body, {new: true}, function(err, user) {
+    Truck.findByIdAndUpdate(req.params.id, req.body, {new: true}, function(err, user) {
         if (err) return res.status(500).send('There was a problem updating the user.');
         res.status(200).send(user);
     })
